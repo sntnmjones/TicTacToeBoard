@@ -1,4 +1,5 @@
 #include "TicTacToeBoard.h"
+
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -19,7 +20,15 @@ TicTacToeBoard::TicTacToeBoard()
 **/
 Piece TicTacToeBoard::toggleTurn()
 {
-  return Invalid;
+    if (turn == X)
+    {
+        turn = O;
+    }
+    else
+    {
+        turn = X;
+    }
+    return turn;
 }
 
 /**
@@ -33,7 +42,32 @@ Piece TicTacToeBoard::toggleTurn()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  return Invalid;
+  Piece curPos = board[row][column];
+
+  /* If location already has a piece, return what is already at location. */
+  if (curPos == 'X' || curPos == 'O')
+  {
+    toggleTurn();
+    return curPos; 
+  }  
+  /* Out of bounds coords return Piece Invalid value. */
+  else if (
+       row > BOARDSIZE
+      || row < 0
+      || column > BOARDSIZE
+      || column < 0     
+  )
+  {
+    toggleTurn();
+    return Invalid;
+  }
+  /* Return what piece was placed. */
+  else 
+  {
+    board[row][column] = turn;
+    toggleTurn();
+    return board[row][column];
+  }
 }
 
 /**
@@ -42,7 +76,27 @@ Piece TicTacToeBoard::placePiece(int row, int column)
 **/
 Piece TicTacToeBoard::getPiece(int row, int column)
 {
-  return Invalid;
+  Piece curPos = board[row][column];
+  /* If no pieces at coords, return Blank. */
+  if (curPos == Blank)
+  {
+    return curPos;
+  } 
+  /* Else if coords are out of bounds, return Invalid. */
+  else if (
+      row > BOARDSIZE
+      || row < 0
+      || column > BOARDSIZE
+      || column < 0)
+  {
+    curPos = Invalid;
+    return curPos;
+  }
+  /* Else, return Piece. */
+  else 
+  {
+    return curPos;
+  }
 }
 
 /**
@@ -51,5 +105,73 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-  return Invalid;
+  Piece priorPiece;
+  bool invalid = false;
+
+  /* Check rows for winner */
+  for (int i = 0; i < BOARDSIZE; i++)
+  {
+    for (int j = 0; j < BOARDSIZE; j++)
+    {
+      /* If game is not over */
+      if (getPiece(i,j) == Invalid ||getPiece(i,j) == Blank)
+      {
+        invalid = true;
+      }
+      
+      /* First time through has no prior piece. */
+      if (j == 0)
+      {
+        priorPiece = getPiece(i,j); 
+      }
+      /* If pieces are not consecutive. */
+      else if (priorPiece != getPiece(i,j))
+      {
+        j = BOARDSIZE;
+      }
+      /* Winner, winner, chicken dinner. */
+      else if (j == (BOARDSIZE - 1))
+      {
+        return getPiece(i,j); 
+      }
+    } 
+  }
+
+  /* Check columns for winner */
+  for (int j = 0; j < BOARDSIZE; j++)
+  {
+    for (int i = 0; i < BOARDSIZE; i++)
+    {
+      /* If game is not over */
+      if (getPiece(i,j) == Invalid || getPiece(i,j) == Blank)
+      {
+        invalid = true;
+      }
+      
+      /* First time through has no prior piece. */
+      if (i == 0)
+      {
+        priorPiece = getPiece(i,j); 
+      }
+      /* If pieces are not consecutive. */
+      else if (priorPiece != getPiece(i,j)) 
+      {
+        i = BOARDSIZE;
+      }
+      /* Winner, winner, chicken dinner. */
+      else if (i == (BOARDSIZE - 1))
+      {
+        return getPiece(i,j); 
+      }
+    } 
+  }
+  if (invalid == true)
+  {
+    return Invalid;
+  }
+  else 
+  {
+    return Blank;
+  }
 }
+
