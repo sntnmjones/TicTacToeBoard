@@ -53,7 +53,7 @@ TEST(TicTacToeBoardTest, spotIsBlank)
 TEST(TicTacToeBoardTest, rowIsTooSmall)
 { 
   TicTacToeBoard board;
-  Piece result = board.getPiece(-1, 0);  
+  Piece result = board.placePiece(-1, 0);  
   ASSERT_EQ(result, Invalid);
 }
 
@@ -61,7 +61,7 @@ TEST(TicTacToeBoardTest, rowIsTooSmall)
 TEST(TicTacToeBoardTest, rowIsTooLarge)
 { 
   TicTacToeBoard board;
-  Piece result = board.getPiece(0, 10);  
+  Piece result = board.placePiece(0, 10);  
   ASSERT_EQ(result, Invalid);
 }
 
@@ -69,7 +69,7 @@ TEST(TicTacToeBoardTest, rowIsTooLarge)
 TEST(TicTacToeBoardTest, columnIsTooSmall)
 { 
   TicTacToeBoard board;
-  Piece result = board.getPiece(0, -1);  
+  Piece result = board.placePiece(0, -1);  
   ASSERT_EQ(result, Invalid);
 }
 
@@ -77,14 +77,15 @@ TEST(TicTacToeBoardTest, columnIsTooSmall)
 TEST(TicTacToeBoardTest, columnIsTooLarge)
 { 
   TicTacToeBoard board;
-  Piece result = board.getPiece(0, 10);  
+  Piece result = board.placePiece(0, 10);  
   ASSERT_EQ(result, Invalid);
 }
 
 
-TEST(TicTacToeBoardTest, pieceAtZeroZero)
+TEST(TicTacToeBoardTest, pieceAlreadyAtPos)
 { 
   TicTacToeBoard board;
+  board.placePiece(0,0);
   ASSERT_EQ(board.placePiece(0, 0), 'X');
 }
 

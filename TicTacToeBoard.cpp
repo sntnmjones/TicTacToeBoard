@@ -42,10 +42,10 @@ Piece TicTacToeBoard::toggleTurn()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  Piece curPos = board[row][column];
-
+  Piece curPos = getPiece(row, column);
+  
   /* If location already has a piece, return what is already at location. */
-  if (curPos == 'X' || curPos == 'O')
+  if (curPos == X || curPos == O)
   {
     toggleTurn();
     return curPos; 

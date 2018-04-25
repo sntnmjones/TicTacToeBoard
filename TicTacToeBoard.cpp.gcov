@@ -1,0 +1,182 @@
+        -:    0:Source:TicTacToeBoard.cpp
+        -:    0:Graph:TicTacToeBoard.gcno
+        -:    0:Data:TicTacToeBoard.gcda
+        -:    0:Runs:2
+        -:    0:Programs:2
+        -:    1:#include "TicTacToeBoard.h"
+        -:    2:
+        -:    3:/**
+        -:    4: * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
+        -:    5: * to represent the spaces on the board.
+        -:    6:**/
+        -:    7:
+        -:    8://Constructor sets an empty board and specifies it is X's turn first
+       26:    9:TicTacToeBoard::TicTacToeBoard()
+        -:   10:{
+       26:   11:  turn = X;
+      104:   12:  for(int i=0; i<BOARDSIZE; i++)
+      312:   13:    for(int j=0; j<BOARDSIZE; j++)
+      234:   14:      board[i][j] = Blank;
+       26:   15:}
+        -:   16:
+        -:   17:/**
+        -:   18: * Switches turn member variable to represent whether it's X's or O's turn
+        -:   19: * and returns whose turn it is
+        -:   20:**/
+       64:   21:Piece TicTacToeBoard::toggleTurn()
+        -:   22:{
+       64:   23:    if (turn == X)
+        -:   24:    {
+       38:   25:        turn = O;
+        -:   26:    }
+        -:   27:    else
+        -:   28:    {
+       26:   29:        turn = X;
+        -:   30:    }
+       64:   31:    return turn;
+        -:   32:}
+        -:   33:
+        -:   34:/**
+        -:   35: * Places the piece of the current turn on the board, returns what
+        -:   36: * piece is placed, and toggles which Piece's turn it is. placePiece does 
+        -:   37: * NOT allow to place a piece in a location where there is already a piece.
+        -:   38: * In that case, placePiece just returns what is already at that location. 
+        -:   39: * Out of bounds coordinates return the Piece Invalid value. When the game
+        -:   40: * is over, no more pieces can be placed so attempting to place a piece
+        -:   41: * should neither change the board nor change whose turn it is.
+        -:   42:**/ 
+       58:   43:Piece TicTacToeBoard::placePiece(int row, int column)
+        -:   44:{
+       58:   45:  Piece curPos = getPiece(row, column);
+        -:   46:  
+        -:   47:  /* If location already has a piece, return what is already at location. */
+       58:   48:  if (curPos == X || curPos == O)
+        -:   49:  {
+        2:   50:    toggleTurn();
+        2:   51:    return curPos; 
+        -:   52:  }  
+        -:   53:  /* Out of bounds coords return Piece Invalid value. */
+       56:   54:  else if (
+        -:   55:       row > BOARDSIZE
+       56:   56:      || row < 0
+       55:   57:      || column > BOARDSIZE
+       53:   58:      || column < 0     
+        -:   59:  )
+        -:   60:  {
+        4:   61:    toggleTurn();
+        4:   62:    return Invalid;
+        -:   63:  }
+        -:   64:  /* Return what piece was placed. */
+        -:   65:  else 
+        -:   66:  {
+       52:   67:    board[row][column] = turn;
+       52:   68:    toggleTurn();
+       52:   69:    return board[row][column];
+        -:   70:  }
+        -:   71:}
+        -:   72:
+        -:   73:/**
+        -:   74: * Returns what piece is at the provided coordinates, or Blank if there
+        -:   75: * are no pieces there, or Invalid if the coordinates are out of bounds
+        -:   76:**/
+      284:   77:Piece TicTacToeBoard::getPiece(int row, int column)
+        -:   78:{
+      284:   79:  Piece curPos = board[row][column];
+        -:   80:  /* If no pieces at coords, return Blank. */
+      284:   81:  if (curPos == Blank)
+        -:   82:  {
+       78:   83:    return curPos;
+        -:   84:  } 
+        -:   85:  /* Else if coords are out of bounds, return Invalid. */
+      206:   86:  else if (
+        -:   87:      row > BOARDSIZE
+      206:   88:      || row < 0
+      204:   89:      || column > BOARDSIZE
+      200:   90:      || column < 0)
+        -:   91:  {
+        8:   92:    curPos = Invalid;
+        8:   93:    return curPos;
+        -:   94:  }
+        -:   95:  /* Else, return Piece. */
+        -:   96:  else 
+        -:   97:  {
+      198:   98:    return curPos;
+        -:   99:  }
+        -:  100:}
+        -:  101:
+        -:  102:/**
+        -:  103: * Returns which Piece has won, if there is a winner, Invalid if the game
+        -:  104: * is not over, or Blank if the board is filled and no one has won.
+        -:  105:**/
+        8:  106:Piece TicTacToeBoard::getWinner()
+        -:  107:{
+        -:  108:  Piece priorPiece;
+        8:  109:  bool invalid = false;
+        -:  110:
+        -:  111:  /* Check rows for winner */
+       26:  112:  for (int i = 0; i < BOARDSIZE; i++)
+        -:  113:  {
+       60:  114:    for (int j = 0; j < BOARDSIZE; j++)
+        -:  115:    {
+        -:  116:      /* If game is not over */
+       42:  117:      if (getPiece(i,j) == Invalid ||getPiece(i,j) == Blank)
+        -:  118:      {
+        4:  119:        invalid = true;
+        -:  120:      }
+        -:  121:      
+        -:  122:      /* First time through has no prior piece. */
+       42:  123:      if (j == 0)
+        -:  124:      {
+       20:  125:        priorPiece = getPiece(i,j); 
+        -:  126:      }
+        -:  127:      /* If pieces are not consecutive. */
+       22:  128:      else if (priorPiece != getPiece(i,j))
+        -:  129:      {
+       18:  130:        j = BOARDSIZE;
+        -:  131:      }
+        -:  132:      /* Winner, winner, chicken dinner. */
+        4:  133:      else if (j == (BOARDSIZE - 1))
+        -:  134:      {
+        2:  135:        return getPiece(i,j); 
+        -:  136:      }
+        -:  137:    } 
+        -:  138:  }
+        -:  139:
+        -:  140:  /* Check columns for winner */
+       18:  141:  for (int j = 0; j < BOARDSIZE; j++)
+        -:  142:  {
+       42:  143:    for (int i = 0; i < BOARDSIZE; i++)
+        -:  144:    {
+        -:  145:      /* If game is not over */
+       30:  146:      if (getPiece(i,j) == Invalid || getPiece(i,j) == Blank)
+        -:  147:      {
+        4:  148:        invalid = true;
+        -:  149:      }
+        -:  150:      
+        -:  151:      /* First time through has no prior piece. */
+       30:  152:      if (i == 0)
+        -:  153:      {
+       14:  154:        priorPiece = getPiece(i,j); 
+        -:  155:      }
+        -:  156:      /* If pieces are not consecutive. */
+       16:  157:      else if (priorPiece != getPiece(i,j)) 
+        -:  158:      {
+       12:  159:        i = BOARDSIZE;
+        -:  160:      }
+        -:  161:      /* Winner, winner, chicken dinner. */
+        4:  162:      else if (i == (BOARDSIZE - 1))
+        -:  163:      {
+        2:  164:        return getPiece(i,j); 
+        -:  165:      }
+        -:  166:    } 
+        -:  167:  }
+        4:  168:  if (invalid == true)
+        -:  169:  {
+        2:  170:    return Invalid;
+        -:  171:  }
+        -:  172:  else 
+        -:  173:  {
+        2:  174:    return Blank;
+        -:  175:  }
+        -:  176:}
+        -:  177:
