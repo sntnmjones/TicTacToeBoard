@@ -5,7 +5,7 @@
 
 # Commented out for .travis.yml to work.
 #GTEST_DIR = /usr/local/src/googletest/googletest
-GTEST_DIR = ./googletest
+GTEST_DIR = ./googletest/gtest
 
 # Flags passed to the preprocessor and compiler
 CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include
