@@ -4,7 +4,7 @@
 
 
 # Commented out for .travis.yml to work.
-#GTEST_DIR = /usr/local/src/googletest/googletest
+# GTEST_DIR = /usr/local/src/googletest/googletest
 GTEST_DIR = ./googletest
 
 # Flags passed to the preprocessor and compiler
@@ -43,7 +43,7 @@ gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 # Builds the TicTacToeBoard class and associated TicTacToeBoardTest
-TicTacToeBoard.o : TicTacToeBoard.h #$(GTEST_HEADERS)
+TicTacToeBoard.o : TicTacToeBoard.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoard.cpp
 
 TicTacToeBoardTest.o : TicTacToeBoardTest.cpp \
