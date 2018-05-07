@@ -43,11 +43,11 @@ gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 # Builds the TicTacToeBoard class and associated TicTacToeBoardTest
-TicTacToeBoard.o : TicTacToeBoard.h $(GTEST_HEADERS)
+TicTacToeBoard.o : TicTacToeBoard.h #$(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoard.cpp
 
 TicTacToeBoardTest.o : TicTacToeBoardTest.cpp \
-                     TicTacToeBoard.h $(GTEST_HEADERS)
+                     TicTacToeBoard.h #$(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoardTest.cpp
 
 TicTacToeBoardTest : TicTacToeBoard.o TicTacToeBoardTest.o gtest_main.a
