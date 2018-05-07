@@ -47,7 +47,7 @@ TicTacToeBoard.o : TicTacToeBoard.h #$(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoard.cpp
 
 TicTacToeBoardTest.o : TicTacToeBoardTest.cpp \
-                     TicTacToeBoard.h #$(GTEST_HEADERS)
+                     TicTacToeBoard.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoardTest.cpp
 
 TicTacToeBoardTest : TicTacToeBoard.o TicTacToeBoardTest.o gtest_main.a
