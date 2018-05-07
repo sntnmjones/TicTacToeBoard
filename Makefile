@@ -4,11 +4,11 @@
 
 
 # Commented out for .travis.yml to work.
-# GTEST_DIR = /usr/local/src/googletest/googletest
-GTEST_DIR = ./googletest
+#GTEST_DIR = /usr/local/src/googletest/googletest
+#GTEST_DIR = ./googletest
 
 # Flags passed to the preprocessor and compiler
-CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include
+CPPFLAGS += --coverage -isystem #$(GTEST_DIR)/include
 CXXFLAGS += -g -Wall -Wextra -pthread
 
 # All tests produced by this Makefile.
@@ -26,28 +26,28 @@ clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o *.gcov *.gcda *.gcno *.gch
 
 # Builds gtest.a and gtest_main.a.
-GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
+#GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
-gtest-all.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest-all.cc
+#test-all.o : $(GTEST_SRCS_)
+# 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+#             $(GTEST_DIR)/src/gtest-all.cc
 
-gtest_main.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest_main.cc
+# gtest_main.o : $(GTEST_SRCS_)
+# 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+#             $(GTEST_DIR)/src/gtest_main.cc
 
-gtest.a : gtest-all.o
-	$(AR) $(ARFLAGS) $@ $^
+# gtest.a : gtest-all.o
+# 	$(AR) $(ARFLAGS) $@ $^
 
-gtest_main.a : gtest-all.o gtest_main.o
-	$(AR) $(ARFLAGS) $@ $^
+# gtest_main.a : gtest-all.o gtest_main.o
+# 	$(AR) $(ARFLAGS) $@ $^
 
 # Builds the TicTacToeBoard class and associated TicTacToeBoardTest
-TicTacToeBoard.o : TicTacToeBoard.h $(GTEST_HEADERS)
+TicTacToeBoard.o : TicTacToeBoard.h #$(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoard.cpp
 
 TicTacToeBoardTest.o : TicTacToeBoardTest.cpp \
-                     TicTacToeBoard.h $(GTEST_HEADERS)
+                     TicTacToeBoard.h #$(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoardTest.cpp
 
 TicTacToeBoardTest : TicTacToeBoard.o TicTacToeBoardTest.o gtest_main.a
