@@ -2,14 +2,13 @@
 # all code in SOURCECODE subdirectory. This Makefile is based on the
 # sample Makefile provided in the official GoogleTest GitHub Repo v1.7
 
-#GTEST_DIR = /usr/local/src/googletest/googletest
 
 # Commented out for .travis.yml to work.
 #GTEST_DIR = /usr/local/src/googletest/googletest
-#GTEST_DIR = ./googletest
+#GTEST_DIR = .
 
 # Flags passed to the preprocessor and compiler
-CPPFLAGS += --coverage -isystem #$(GTEST_DIR)/include
+CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include
 CXXFLAGS += -g -Wall -Wextra -pthread
 
 # All tests produced by this Makefile.
@@ -26,10 +25,10 @@ all : $(TESTS)
 clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o *.gcov *.gcda *.gcno *.gch
 
-Builds gtest.a and gtest_main.a.
+# Builds gtest.a and gtest_main.a.
 GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
-test-all.o : $(GTEST_SRCS_)
+gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest-all.cc
 
@@ -52,4 +51,4 @@ TicTacToeBoardTest.o : TicTacToeBoardTest.cpp \
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c TicTacToeBoardTest.cpp
 
 TicTacToeBoardTest : TicTacToeBoard.o TicTacToeBoardTest.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
