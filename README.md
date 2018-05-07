@@ -1,3 +1,6 @@
+Mine's passing too...
+[![Build Status](https://travis-ci.org/sntnmjones/TicTacToeBoard.svg?branch=master)](https://travis-ci.org/sntnmjones/TicTacToeBoard)
+
 
 # Google Test #
 
